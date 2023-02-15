@@ -5,7 +5,6 @@ import { DatabaseService } from './database/database.service';
 import { UsersModule } from './users/users.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { join } from 'path';
-import { TokensModule } from './tokens/tokens.module';
 
 @Module({
   imports: [
@@ -16,7 +15,6 @@ import { TokensModule } from './tokens/tokens.module';
       synchronize: true,
     }),
     UsersModule,
-    TokensModule,
   ],
   controllers: [AppController],
   providers: [AppService, DatabaseService],
