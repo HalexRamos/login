@@ -5,13 +5,16 @@ import { AppService } from './app.service';
 import { DatabaseService } from './database/database.service';
 import { UsersModule } from './users/users.module';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { join } from 'path';
 
 @Module({
   imports: [
     SequelizeModule.forRoot({
-      dialect: 'sqlite',
-      host: join(__dirname, 'database.sqlite'),
+      dialect: 'postgres',
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USERNAME || 'postgres',
+      password: process.env.DB_PASSWORD || 'postgres',
+      database: process.env.DB_NAME || 'postgres',
       autoLoadModels: true,
       synchronize: true,
     }),
