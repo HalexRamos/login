@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
+import { ConfigModule } from '@nestjs/config';
 import { AppService } from './app.service';
 import { DatabaseService } from './database/database.service';
 import { UsersModule } from './users/users.module';
@@ -14,6 +15,7 @@ import { join } from 'path';
       autoLoadModels: true,
       synchronize: true,
     }),
+    ConfigModule.forRoot(),
     UsersModule,
   ],
   controllers: [AppController],
