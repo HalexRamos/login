@@ -36,6 +36,15 @@ export class UsersService {
     });
   }
 
+  findByEmail(email: string) {
+    return this.userModel.findOne({
+      where: {
+        email,
+        deleted_at: null,
+      },
+    });
+  }
+
   update(id: string, updateUserDto: UpdateUserDto) {
     bcrypt.hash(updateUserDto.password, 10, (error: any, hash: string) => {
       updateUserDto.password = hash;

@@ -1,7 +1,20 @@
+import { IsNotEmpty, Matches } from 'class-validator';
+import { RegExHelper } from '../../helpers/regex.helper';
+
 export class UpdateUserDto {
+  @IsNotEmpty()
   first_name: string;
+
+  @IsNotEmpty()
   last_name: string;
-  email: string;
+
+  @IsNotEmpty()
   phone: string;
-  password?: string;
+
+  @IsNotEmpty()
+  @Matches(RegExHelper.password)
+  password: string;
+
+  @IsNotEmpty()
+  role: string;
 }

@@ -4,22 +4,25 @@ import { ConfigModule } from '@nestjs/config';
 import { AppService } from './app.service';
 import { DatabaseService } from './database/database.service';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: process.env.DB_HOST,
       port: +process.env.DB_PORT,
-      username: process.env.DB_USERNAME || 'postgres',
-      password: process.env.DB_PASSWORD || 'postgres',
-      database: process.env.DB_NAME || 'postgres',
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      entities: [__dirname + '/**/*.entity{.js,.ts}'],
       autoLoadModels: true,
       synchronize: true,
-    }),
-    ConfigModule.forRoot(),
+    } as SequelizeModule),
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService, DatabaseService],
