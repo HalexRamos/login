@@ -1,3 +1,4 @@
+import { TokenService } from './../token/token.service';
 import { User } from './../user/entities/user.entity';
 import { UserService } from './../user/user.service';
 import { Injectable } from '@nestjs/common';
@@ -9,13 +10,17 @@ export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly tokenService: TokenService,
   ) {}
 
   async login(user) {
     const payload = { sub: user.id, email: user.email };
-
+    const token = this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET_KEY,
+    });
+    this.tokenService.save(token, user.email);
     return {
-      token: this.jwtService.sign(payload),
+      token,
     };
   }
 

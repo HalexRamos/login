@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
   BeforeInsert,
   Entity,
-  Unique,
 } from 'typeorm';
 
 import { hashSync } from 'bcrypt';
