@@ -34,7 +34,20 @@ export class UserService {
 
   async findOneById(id: string) {
     try {
-      return await this.userRepository.findOneById(id);
+      return await this.userRepository.findOne({
+        where: { id },
+        select: [
+          'id',
+          'firstName',
+          'lastName',
+          'email',
+          'phone',
+          'role',
+          'createdAt',
+          'updatedAt',
+          'deletedAt',
+        ],
+      });
     } catch (error) {
       throw new NotFoundException(error.message);
     }
