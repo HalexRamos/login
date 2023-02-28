@@ -5,6 +5,7 @@ import {
   DeleteDateColumn,
   PrimaryGeneratedColumn,
   BeforeInsert,
+  BeforeUpdate,
   Entity,
 } from 'typeorm';
 
@@ -43,6 +44,7 @@ export class User {
   deletedAt: Date;
 
   @BeforeInsert()
+  @BeforeUpdate()
   hashPassword() {
     this.password = hashSync(this.password, 10);
   }
