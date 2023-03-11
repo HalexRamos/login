@@ -1,27 +1,28 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { ConfigModule } from '@nestjs/config';
-import { AppService } from './app.service';
-import { DatabaseService } from './database/database.service';
-import { UsersModule } from './users/users.module';
-import { SequelizeModule } from '@nestjs/sequelize';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { UserModule } from './api/user/user.module';
+import { AuthModule } from './api/auth/auth.module';
+import { TokenModule } from './api/token/token.module';
 
 @Module({
   imports: [
-    SequelizeModule.forRoot({
-      dialect: 'postgres',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      username: process.env.DB_USERNAME || 'postgres',
-      password: process.env.DB_PASSWORD || 'postgres',
-      database: process.env.DB_NAME || 'postgres',
-      autoLoadModels: true,
-      synchronize: true,
-    }),
     ConfigModule.forRoot(),
-    UsersModule,
+    TypeOrmModule.forRoot({
+      type: process.env.DB_TYPE,
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      entities: [__dirname + '/**/*.entity{.js,.ts}'],
+      synchronize: process.env.DB_SYNC === 'true' ? true : false,
+    } as TypeOrmModuleOptions),
+    UserModule,
+    AuthModule,
+    TokenModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, DatabaseService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
