@@ -16,7 +16,7 @@ import { TokenModule } from './api/token/token.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity{.js,.ts}'],
-      synchronize: true,
+      synchronize: process.env.DB_SYNC === 'true' ? true : false,
     } as TypeOrmModuleOptions),
     UserModule,
     AuthModule,
